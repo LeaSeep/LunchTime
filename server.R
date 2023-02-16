@@ -1,4 +1,5 @@
 # server ----
+source("utils.R")
 
 server <- function(input, output, session) {
   
@@ -10,6 +11,6 @@ server <- function(input, output, session) {
   
   #
   output$TodaysLunchTime <- renderText({
-    #
+    getLunchTime()
   })
 }
