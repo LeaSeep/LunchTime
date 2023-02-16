@@ -10,7 +10,7 @@ getLunchTime <- function(dayRequest){
       TodaysLunchTime <<- "It is the Weekend. You have to care for your lunch yourself"
     }else{
       drawnMinutes <- sample(1:30,1)
-      startTime <- as.POSIXct("12:30:00", format = "%H:%M:%S")
+      startTime <- as.POSIXct("11:30:00", format = "%H:%M:%S")
       new_time <- as.POSIXct(startTime + (60 * drawnMinutes))
       LunchTime <- format(new_time, format = "%H:%M")
       TodaysLunchTime <<- paste0("Today's Lunch Time is: ",LunchTime)
