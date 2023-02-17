@@ -1,7 +1,7 @@
 # server ----
 source("utils.R")
 TodaysLunchTime <<- "No Lunch"
-
+actualLunch_recorder <<- TRUE
 SkipThisWeek <<- TRUE
 
 server <- function(input, output, session) {
