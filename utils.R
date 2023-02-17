@@ -29,11 +29,10 @@ getLunchTime <- function(dayRequest){
       sep = ",",
       append = T
     )
+    actualLunch_recorder <<- T
     
     lastDayRequest <<- dayRequest
   }
-  
-
   
   return(TodaysLunchTime)
 }
