@@ -17,9 +17,8 @@ Than get your hands on the data generated here!
 ## Feature Overview
 - Gives everyday a Lunch time between 11:30 and 12:00 (expect on weekends and every second Tuesdays (not too sure if that actually works))
 - displays the current time (currently you have to think of plus one hour, as the server on which the app is hosted apparently is not in our timezone - did not bother to fix as I hope we can argue to get it on our intern Shiny Server)
-- Button which can be only clicked once per day, to capture the actual time we leave for lunch ( DO NOT MISUSE!)
+- Button which can be only clicked once per day, to capture the actual time we leave for lunch (DO NOT MISUSE!)
 - Button to download the Lunch Time stats incl. Date, Weekday, proposed lunchtime and actual lunch time (in convenient csv format)
 
 ## Contribution
-The Main Branch is protected, you need to open a new branch and do a Pull Request, which I might or might now allow to be merged.
-Highest chances are probably by providing food or listing to all my stories with excitment and have one or two questions prepared.
+Ask to be a collab and then you can play along.
