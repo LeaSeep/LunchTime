@@ -3,7 +3,7 @@
 ## Set Up ----
 library(shiny)
 library(shinyWidgets)
-
+library(shinyalert)
 
 ui <- fluidPage(
   tags$head(
@@ -39,11 +39,8 @@ ui <- fluidPage(
     ')
   ),
 
-  setBackgroundImage(
-    src = "HasenAUA.png"
-  ),
-  
-  h3(textOutput("output"), style ="color: #050000"),
+  setBackgroundImage(src = "HasenAUA.png"),
+  h3(textOutput("output"), style = "color: #050000"),
 
   mainPanel(
     br(),
@@ -51,7 +48,7 @@ ui <- fluidPage(
     h1(strong(textOutput("TodaysLunchTime")),
        class = "pulsate",
        style = "font-family:'Cinzel', serif;font-weight: normal; font-size: 550%; text-shadow: 10px 10px 10px #9bb3a3; color: #050000;",
-       align ="center"),
+       align = "center"),
     br(),
     div(
       style = "float:right; color: #050000",

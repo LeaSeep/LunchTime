@@ -29,15 +29,14 @@ server <- function(input, output, session) {
     last_line <- file[length]
     last_line_parts <-strsplit(last_line,",")[[1]]
     if(last_line_parts[4]=="NA"){
-      # check if reasonable time to record Lunch Time proposed LT >11:30
-      browser()
-      if(as.POSIXct(last_line_parts[3],format="%H:%M")>as.POSIXct("11:30:00", format = "%H:%M:%S")){
+      # check if reasonable time to record Lunch Time proposed LT >= now()
+      if(as.POSIXct(Sys.time(),format="%H:%M")>=as.POSIXct(last_line_parts[3], format = "%H:%M")){
         actionButton("ActualLunch", "Click to record actual Lunch Time",icon = icon("check"))
       }else{
         actionButton("MisuseDetected", "Click to record actual Lunch Time",icon = icon("check"))
       }
     }else{
-     strong("actual Lunch Time has been recorded!",style="color:white")
+     strong("Actual Lunch Time has been recorded!",style="color:white; font-size: 200%")
     }
   })
   
@@ -56,8 +55,11 @@ server <- function(input, output, session) {
   })
   
   observeEvent(input$MisuseDetected,{
-    session$sendCustomMessage(type = 'testmessage',
-                              message = 'Thank you for clicking')
+    print("MISUSE")
+    shinyalert(title = "I SAID DO NOT MISUSE!", 
+               type = "error",
+               confirmButtonText = "I'm sorry and I promise to not do it again",
+               imageUrl = "HasenDead.png")
   })
   
   output$downloadData <- downloadHandler(
