@@ -6,6 +6,12 @@ library(shinyWidgets)
 
 
 ui <- fluidPage(
+  tags$head(
+    tags$style(
+      HTML('#downloadData{background-color:#9bb3a3} #downloadData:hover{background-color:grey}'),
+      HTML('#ActualLunch{background-color:#9bb3a3} #ActualLunch:hover{background-color:grey}'),
+      )
+    ),
   tags$style(
     HTML('
       /* Keyframes for pulsating animation */
@@ -47,10 +53,15 @@ ui <- fluidPage(
        style = "font-family:'Cinzel', serif;font-weight: normal; font-size: 550%; text-shadow: 10px 10px 10px #9bb3a3; color: #050000;",
        align ="center"),
     br(),
-    strong(uiOutput("ActualLunch_UI"),align = "center"),
+    div(
+      style = "float:right; color: #050000",
+      uiOutput("ActualLunch_UI")
+      ),
     br(),
     br(),
-    downloadButton("downloadData", "Download Stats", icon=icon("download"))
+    div(
+      style = "float:right; color: #050000",
+      downloadButton("downloadData", "Download Stats", icon = icon("download")))
   ),
   
 )
