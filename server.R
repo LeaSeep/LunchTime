@@ -1,7 +1,7 @@
 # server ----
 source("utils.R")
 TodaysLunchTime <<- "No Lunch"
-lastDayRequest <<- "none"
+
 SkipThisWeek <<- TRUE
 
 server <- function(input, output, session) {
@@ -14,7 +14,10 @@ server <- function(input, output, session) {
    
   # Update Lunch Time only once a day
   ToDay <- weekdays(Sys.Date())
-
+  file <- readLines("www/LunchTimeOverview.csv")
+  length <- length(file)
+  lastDayRequest <<-  strsplit(file[length],",")[[1]][2]
+  TodaysLunchTime <<- paste0("Today's Lunch Time is: ",strsplit(file[length],",")[[1]][3])
   #
   output$TodaysLunchTime <- renderText({
     getLunchTime(ToDay)
@@ -30,7 +33,7 @@ server <- function(input, output, session) {
   
   observeEvent(input$ActualLunch,{
     file <- readLines("www/LunchTimeOverview.csv")
-    length <- length(readLines("www/LunchTimeOverview.csv"))
+    length <- length(file)
     last_line <- file[length] 
     last_line <- gsub("NA$",format(Sys.time(), format = "%H:%M"),last_line)
     file[length] <- last_line
