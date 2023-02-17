@@ -44,7 +44,13 @@ ui <- fluidPage(
     br(),
     h1(strong(textOutput("TodaysLunchTime")),
        class = "pulsate",
-       style = "font-family:'Cinzel', serif;font-weight: normal; font-size: 800%; text-shadow: 10px 10px 10px #9bb3a3; color: #050000;",
-       align ="center")
-  )
+       style = "font-family:'Cinzel', serif;font-weight: normal; font-size: 550%; text-shadow: 10px 10px 10px #9bb3a3; color: #050000;",
+       align ="center"),
+    br(),
+    strong(uiOutput("ActualLunch_UI"),align = "center"),
+    br(),
+    br(),
+    downloadButton("downloadData", "Download Stats", icon=icon("download"))
+  ),
+  
 )
