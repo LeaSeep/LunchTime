@@ -24,10 +24,20 @@ server <- function(input, output, session) {
   })
   
   output$ActualLunch_UI <- renderUI({
-    if(actualLunch_recorder){
-      actionButton("ActualLunch", "Click to record actual Lunch Time",icon = icon("check"))
+    file <- readLines("www/LunchTimeOverview.csv")
+    length <- length(file)
+    last_line <- file[length]
+    last_line_parts <-strsplit(last_line,",")[[1]]
+    if(last_line_parts[4]=="NA"){
+      # check if reasonable time to record Lunch Time proposed LT >11:30
+      browser()
+      if(as.POSIXct(last_line_parts[3],format="%H:%M")>as.POSIXct("11:30:00", format = "%H:%M:%S")){
+        actionButton("ActualLunch", "Click to record actual Lunch Time",icon = icon("check"))
+      }else{
+        actionButton("MisuseDetected", "Click to record actual Lunch Time",icon = icon("check"))
+      }
     }else{
-      NULL
+     strong("actual Lunch Time has been recorded!",style="color:white")
     }
   })
   
@@ -42,9 +52,12 @@ server <- function(input, output, session) {
       file = "www/LunchTimeOverview.csv",
       sep = ","
     )
-    actualLunch_recorder <<- F
     output$ActualLunch_UI <- renderUI({NULL})
-    
+  })
+  
+  observeEvent(input$MisuseDetected,{
+    session$sendCustomMessage(type = 'testmessage',
+                              message = 'Thank you for clicking')
   })
   
   output$downloadData <- downloadHandler(
