@@ -18,27 +18,34 @@ server <- function(input, output, session) {
   length <- length(file)
   lastDayRequest <<-  strsplit(file[length],",")[[1]][2]
   TodaysLunchTime <<- paste0("Today's Lunch Time is: ",strsplit(file[length],",")[[1]][3])
+
   #
   output$TodaysLunchTime <- renderText({
     getLunchTime(ToDay)
   })
   
-  output$ActualLunch_UI <- renderUI({
-    file <- readLines("www/LunchTimeOverview.csv")
-    length <- length(file)
-    last_line <- file[length]
-    last_line_parts <-strsplit(last_line,",")[[1]]
-    if(last_line_parts[4]=="NA"){
-      # check if reasonable time to record Lunch Time proposed LT >= now()
-      if(as.POSIXct(Sys.time(),format="%H:%M")>=as.POSIXct(last_line_parts[3], format = "%H:%M")){
-        actionButton("ActualLunch", "Click to record actual Lunch Time",icon = icon("check"))
+
+    output$ActualLunch_UI <- renderUI({
+      print("Refresh")
+      print(input$MisuseDetected) # Does this trigger refresh?
+      print(input$ActualLunch)
+      file <- readLines("www/LunchTimeOverview.csv")
+      length <- length(file)
+      last_line <- file[length]
+      last_line_parts <- strsplit(last_line,",")[[1]]
+      if(last_line_parts[4] == "NA"){
+        # check if reasonable time to record Lunch Time proposed LT >= now()
+        if(as.POSIXct(Sys.time(),format="%H:%M")>=as.POSIXct(last_line_parts[3], format = "%H:%M")){
+          actionButton("ActualLunch", "Click to record actual Lunch Time",icon = icon("check"))
+        }else{
+          actionButton("MisuseDetected", "Click to record actual Lunch Time",icon = icon("check"))
+        }
       }else{
-        actionButton("MisuseDetected", "Click to record actual Lunch Time",icon = icon("check"))
+        strong("Actual Lunch Time has been recorded!",style = "color:white; font-size: 200%")
       }
-    }else{
-     strong("Actual Lunch Time has been recorded!",style="color:white; font-size: 200%")
-    }
-  })
+    })
+
+
   
   observeEvent(input$ActualLunch,{
     file <- readLines("www/LunchTimeOverview.csv")
@@ -51,7 +58,7 @@ server <- function(input, output, session) {
       file = "www/LunchTimeOverview.csv",
       sep = ","
     )
-    output$ActualLunch_UI <- renderUI({NULL})
+
   })
   
   observeEvent(input$MisuseDetected,{
@@ -60,6 +67,7 @@ server <- function(input, output, session) {
                type = "error",
                confirmButtonText = "I'm sorry and I promise to not do it again",
                imageUrl = "HasenDead.png")
+
   })
   
   output$downloadData <- downloadHandler(

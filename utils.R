@@ -29,6 +29,7 @@ getLunchTime <- function(dayRequest){
       sep = ",",
       append = T
     )
+    
   }
   
   return(TodaysLunchTime)
