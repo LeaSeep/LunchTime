@@ -3,6 +3,7 @@ source("utils.R")
 TodaysLunchTime <<- "No Lunch"
 actualLunch_recorder <<- TRUE
 SkipThisWeek <<- TRUE
+current_time <<- format(Sys.time(),"%H:%M")
 
 server <- function(input, output, session) {
   
@@ -11,7 +12,9 @@ server <- function(input, output, session) {
   time_zone_offset <- reactive(as.numeric(input$client_time_zone_offset) * 60 ) # in s 
   
   output$output <- renderText({
-    invalidateLater(1000, session)
+    invalidateLater(1000*30, session)
+    current_time <<- format(Sys.time() - time_zone_offset(),"%H:%M")
+    print(paste0("The current time is: ",current_time))
   })
   
    
@@ -38,7 +41,7 @@ server <- function(input, output, session) {
       last_line_parts <- strsplit(last_line,",")[[1]]
       if(last_line_parts[4] == "NA"){
         # check if reasonable time to record Lunch Time proposed LT >= now()
-        if(as.POSIXct(Sys.time(),format="%H:%M")>=as.POSIXct(last_line_parts[3], format = "%H:%M")){
+        if(as.POSIXct(current_time, format = "%H:%M")>=as.POSIXct(last_line_parts[3], format = "%H:%M")){
           actionButton("ActualLunch", "Click to record actual Lunch Time",icon = icon("check"))
         }else{
           actionButton("MisuseDetected", "Click to record actual Lunch Time",icon = icon("check"))
@@ -54,7 +57,7 @@ server <- function(input, output, session) {
     file <- readLines("www/LunchTimeOverview.csv")
     length <- length(file)
     last_line <- file[length] 
-    last_line <- gsub("NA$",format(Sys.time(), format = "%H:%M"),last_line)
+    last_line <- gsub("NA$",format(current_time),last_line)
     file[length] <- last_line
     write(
       file,
