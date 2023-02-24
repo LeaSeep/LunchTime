@@ -39,6 +39,16 @@ ui <- fluidPage(
     ')
   ),
 
+  HTML('<input type="text" id="client_time_zone_offset" name="client_time_zone_offset" style="display: none;"> '),
+  
+  tags$script('
+  $(function() {
+    var time_now = new Date()
+    $("input#client_time_zone_offset").val(time_now.getTimezoneOffset())
+  });    
+')
+,
+
   setBackgroundImage(src = "HasenAUA.png"),
   h3(textOutput("output"), style = "color: #050000"),
 

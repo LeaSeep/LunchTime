@@ -7,10 +7,13 @@ SkipThisWeek <<- TRUE
 server <- function(input, output, session) {
   
   # current time
+
+  time_zone_offset <- reactive(as.numeric(input$client_time_zone_offset) * 60 ) # in s 
+  
   output$output <- renderText({
     invalidateLater(1000, session)
-    paste("current time: ", format(Sys.time(), "%H:%M:%S"))
   })
+  
    
   # Update Lunch Time only once a day
   ToDay <- weekdays(Sys.Date())
