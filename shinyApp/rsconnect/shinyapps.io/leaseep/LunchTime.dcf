@@ -1,0 +1,14 @@
+name: LunchTime
+title: LunchTime
+username:
+account: leaseep
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8334403
+bundleId: 6883887
+url: https://leaseep.shinyapps.io/LunchTime/
+when: 1677254209.14466
+lastSyncTime: 1677254209.14466
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|README.md|www/LunchTime_Stats_23_02_17 (1).csv|www/LunchTime_Stats_23_02_17.csv
