@@ -1,4 +1,5 @@
 # LunchTime
+Click [here](https://shiny.iaas.uni-bonn.de/Lunchtime/) to find the app!
 ## Why this App?
 
 **Are you hungry and it is time to propose a Lunch Time?**
