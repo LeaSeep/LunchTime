@@ -4,7 +4,7 @@ TodaysLunchTime <<- "No Lunch"
 actualLunch_recorder <<- TRUE
 SkipThisWeek <<- TRUE
 current_time <<- format(Sys.time(),"%H:%M")
-
+print("HELLO")
 server <- function(input, output, session) {
   
   # current time
