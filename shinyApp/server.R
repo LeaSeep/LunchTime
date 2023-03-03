@@ -9,7 +9,7 @@ server <- function(input, output, session) {
   
   # current time
 
-  time_zone_offset <- reactive(as.numeric(input$client_time_zone_offset) * 60 ) # in s 
+  time_zone_offset <- reactive(as.numeric(input$client_time_zone_offset)) 
   
   output$output <- renderText({
     invalidateLater(1000*30, session)
