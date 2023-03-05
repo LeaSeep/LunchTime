@@ -39,9 +39,13 @@ server <- function(input, output, session) {
       length <- length(file)
       last_line <- file[length]
       last_line_parts <- strsplit(last_line,",")[[1]]
+      browser()
       if(last_line_parts[4] == "NA"){
-        # check if reasonable time to record Lunch Time proposed LT >= now()
-        if(as.POSIXct(current_time, format = "%H:%M")>=as.POSIXct(last_line_parts[3], format = "%H:%M")){
+        # check if Event was recorded (no button then)
+        if(last_line_parts[3] == "Weekend"){
+          strong("Nothing to record",style = "color:white; font-size: 100%")
+        # check if reasonable time to record Lunch Time proposed LT >= now() 
+        }else if(as.POSIXct(current_time, format = "%H:%M")>=as.POSIXct(last_line_parts[3], format = "%H:%M")){
           actionButton("ActualLunch", "Click to record actual Lunch Time",icon = icon("check"))
         }else{
           actionButton("MisuseDetected", "Click to record actual Lunch Time",icon = icon("check"))
