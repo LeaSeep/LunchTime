@@ -18,14 +18,23 @@ server <- function(input, output, session) {
     print(paste0("The current time is: ",current_time))
   })
   
+  
+  # Define a function to update the time value
+  update_time <- function() {
+    # Generate a random time string in the format "hh:mm"
+    time <- draw_time()
+    # Update the output with the new time value
+    return(time)
+  }
+
    
   # Update Lunch Time only once a day
-  ToDay <- weekdays(Sys.Date())
+  ToDay <- "Monday"# weekdays(Sys.Date())
   file <- readLines("www/LunchTimeOverview.csv")
   length <- length(file)
   lastDayRequest <<-  strsplit(file[length],",")[[1]][2]
   TodaysLunchTime <<- paste0("Today's Lunch Time is: ",strsplit(file[length],",")[[1]][3])
-
+  TodaysLunchTime <<- getLunchTime(ToDay,T)
   # Insert a button if option to draw
   FIRST <- reactiveVal(value =F)
   if(lastDayRequest == ToDay){
@@ -36,23 +45,32 @@ server <- function(input, output, session) {
   }else{
     FIRST(TRUE)
     observeEvent(FIRST,{
-      showModal(  modalDialog(
+      showModal(modalDialog(
         # Add a message to the modal with a line break
         HTML("Congrats, you are the first!<br>Let's draw Lunch"),
         tags$img(src = "https://cdn-icons-png.flaticon.com/512/1761/1761437.png", width = 50, height = 50),
         # Add a button to the modal
         footer = actionButton("draw_lunch", "Draw")
-      ),)
+      ))
     })
-    observeEvent(input$draw_lunch,{
-      output$TodaysLunchTime <- renderText({
-        getLunchTime(ToDay,FIRST())
-      })
+    countDownOver <- eventReactive(input$draw_lunch,{
       removeModal()
+      withProgress(message = 'Lunch time migh be: ',value = 0,{
+        for(i in 1:10){
+          # Increment the progress bar, and update the detail text.
+          incProgress(1/10, detail = update_time())
+          Sys.sleep(0.2)
+        }
+      })
+      return("Done")
     })
+    
+    output$TodaysLunchTime <- renderText({
+      print(countDownOver())
+      TodaysLunchTime
+    })
+    
   }
-  
-
   
 
     output$ActualLunch_UI <- renderUI({
@@ -63,11 +81,11 @@ server <- function(input, output, session) {
       length <- length(file)
       last_line <- file[length]
       last_line_parts <- strsplit(last_line,",")[[1]]
-      if(last_line_parts[4] == "NA"){
+      if(last_line_parts[4] == "NA" ){
         # check if Event was recorded (no button then)
         if(last_line_parts[3] == "Weekend"){
           strong("Nothing to record",style = "color:white; font-size: 100%")
-        # check if reasonable time to record Lunch Time proposed LT >= now() 
+          # check if reasonable time to record Lunch Time proposed LT >= now() 
         }else if(as.POSIXct(current_time, format = "%H:%M")>=as.POSIXct(last_line_parts[3], format = "%H:%M")){
           actionButton("ActualLunch", "Click to record actual Lunch Time",icon = icon("check"))
         }else{
@@ -76,7 +94,10 @@ server <- function(input, output, session) {
       }else{
         strong("Actual Lunch Time has been recorded!",style = "color:white; font-size: 200%")
       }
+      
     })
+
+    
 
 
   

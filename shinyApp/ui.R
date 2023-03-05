@@ -12,7 +12,39 @@ ui <- fluidPage(
       HTML('#downloadData{background-color:#9bb3a3} #downloadData:hover{background-color:grey}'),
       HTML('#ActualLunch{background-color:#9bb3a3} #ActualLunch:hover{background-color:grey}'),
       )
-    ),
+    ,
+  tags$style(
+    HTML('
+         /* Center the progress bar */
+         .shiny-notification {
+         position: fixed;
+         top: 10%;
+         left: 10%;
+         height: 250px;
+         width: 500px;
+         font-weight: normal;
+         font-size: 300%;
+         text-shadow: 10px 10px 10px #9bb3a3;
+         color: #050000;
+         font-family:"Cinzel",
+         serif;
+         background-color: #9bb3a3;
+         animation: pulse 3s infinite;
+         }
+         /* Define the pulse animation */
+         @keyframes pulse {
+         0% {
+            transform: scale(0.2);
+         }
+          50% {
+            transform: scale(0.5);
+          }
+          100% {
+            transform: scale(0.8);
+          }
+    }
+'))
+),
   tags$style(
     HTML('
       /* Keyframes for pulsating animation */
@@ -54,7 +86,6 @@ ui <- fluidPage(
   h3(textOutput("output"), style = "color: #050000"),
 
   mainPanel(
-    br(),
     br(),
     h1(strong(textOutput("TodaysLunchTime")),
        class = "pulsate",
