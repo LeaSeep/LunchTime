@@ -1,6 +1,6 @@
 # Draw Lunch Time
 
-getLunchTime <- function(dayRequest){
+getLunchTime <- function(dayRequest,FIRST){
   if(lastDayRequest != dayRequest){
     if(dayRequest == "Tuesday" & !SkipThisWeek){
       TodaysLunchTime <<- "It is Group Meeting! Lunch time heavily depends on length of such, 
@@ -10,7 +10,7 @@ getLunchTime <- function(dayRequest){
     }else if(dayRequest %in% c("Saturday","Sunday")){
       TodaysLunchTime <<- "It is the Weekend. You have to care for your lunch yourself"
       LunchTime <- "Weekend"
-    }else{
+    }else if(FIRST){
       drawnMinutes <- sample(1:15,1)
       startTime <- as.POSIXct("11:45:00", format = "%H:%M:%S")
       new_time <- as.POSIXct(startTime + (60 * drawnMinutes))

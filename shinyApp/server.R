@@ -3,6 +3,7 @@ source("utils.R")
 TodaysLunchTime <<- "No Lunch"
 actualLunch_recorder <<- TRUE
 SkipThisWeek <<- TRUE
+
 current_time <<- format(Sys.time(),"%H:%M")
 print("HELLO")
 server <- function(input, output, session) {
@@ -25,10 +26,33 @@ server <- function(input, output, session) {
   lastDayRequest <<-  strsplit(file[length],",")[[1]][2]
   TodaysLunchTime <<- paste0("Today's Lunch Time is: ",strsplit(file[length],",")[[1]][3])
 
-  #
-  output$TodaysLunchTime <- renderText({
-    getLunchTime(ToDay)
-  })
+  # Insert a button if option to draw
+  FIRST <- reactiveVal(value =F)
+  if(lastDayRequest == ToDay){
+    FIRST(FALSE)
+    output$TodaysLunchTime <- renderText({
+      TodaysLunchTime
+    })
+  }else{
+    FIRST(TRUE)
+    observeEvent(FIRST,{
+      showModal(  modalDialog(
+        # Add a message to the modal with a line break
+        HTML("Congrats, you are the first!<br>Let's draw Lunch"),
+        tags$img(src = "https://cdn-icons-png.flaticon.com/512/1761/1761437.png", width = 50, height = 50),
+        # Add a button to the modal
+        footer = actionButton("draw_lunch", "Draw")
+      ),)
+    })
+    observeEvent(input$draw_lunch,{
+      output$TodaysLunchTime <- renderText({
+        getLunchTime(ToDay,FIRST())
+      })
+      removeModal()
+    })
+  }
+  
+
   
 
     output$ActualLunch_UI <- renderUI({
@@ -39,7 +63,6 @@ server <- function(input, output, session) {
       length <- length(file)
       last_line <- file[length]
       last_line_parts <- strsplit(last_line,",")[[1]]
-      browser()
       if(last_line_parts[4] == "NA"){
         # check if Event was recorded (no button then)
         if(last_line_parts[3] == "Weekend"){
