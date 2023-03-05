@@ -55,11 +55,11 @@ server <- function(input, output, session) {
     })
     countDownOver <- eventReactive(input$draw_lunch,{
       removeModal()
-      withProgress(message = 'Lunch time migh be: ',value = 0,{
-        for(i in 1:10){
+      withProgress(message = 'Lunch Time: ',value = 0,{
+        for(i in 1:20){
           # Increment the progress bar, and update the detail text.
-          incProgress(1/10, detail = update_time())
-          Sys.sleep(0.2)
+          incProgress(1/20, detail = update_time())
+          Sys.sleep(0.1)
         }
       })
       return("Done")
