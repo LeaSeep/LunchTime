@@ -26,4 +26,8 @@ Date, Weekday, proposedLT, actualLT
 2023-03-20,Monday,11:54,11:58
 2023-03-21,Tuesday,11:54,11:59
 2023-03-22,Wednesday,11:52,11:55
-2023-03-23,Thursday,11:46,NA
+2023-03-23,Thursday,11:46,11:50
+2023-03-24,Friday,11:52,NA
+2023-03-25,Saturday,Weekend,NA
+2023-03-26,Sunday,Weekend,NA
+2023-03-27,Monday,11:57,NA
