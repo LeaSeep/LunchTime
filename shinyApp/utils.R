@@ -3,9 +3,8 @@
 getLunchTime <- function(dayRequest){
   if(lastDayRequest != dayRequest){
     if(dayRequest == "Tuesday" & !SkipThisWeek){
-      TodaysLunchTime <<- "It is Group Meeting! Lunch time heavily depends on length of such, 
-                 which is by no means predictable..."
-      LunchTime <- "GroupMeeting"
+      TodaysLunchTime <<- "It is Group Meeting! Lunchtime 11:30 and with time pressure"
+      LunchTime <- "11:30 (but hurry up!)"
       SkipThisWeek <<- T
     }else if(dayRequest %in% c("Saturday","Sunday")){
       TodaysLunchTime <<- "It is the Weekend. You have to care for your lunch yourself"
